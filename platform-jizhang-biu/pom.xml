@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>platform.jizhang.biu</groupId>
+  <artifactId>platform-jizhang-biu</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>platform-jizhang-biu</name>
+  <description>platform-jizhang-biu</description>
+  <modules>
+  	<module>platform-jizhang-biu-api</module>
+  	<module>platform-jizhang-biu-interface</module>
+  	<module>platform-jizhang-biu-service</module>
+  </modules>
+</project>

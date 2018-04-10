@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- spring 与 ibatis 衔接 -->
+	<!-- <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="provider-sql-map-config.xml"></property>
+		<property name="dataSource" ref="dataSource" />
+	</bean> -->
+	<!-- 数据源基本配置 -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:/comp/env/test</value>
+		</property>
+	</bean> -->
+	<!-- 事务配置 -->
+	<!-- <bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean> -->
+
+	<!-- 声明式事务管理 -->
+	<!-- <bean id="baseTransactionProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" 
+		abstract="true"> <property name="transactionManager" ref="transactionManager"></property> 
+		<property name="transactionAttributes"> <props> <prop key="add*">PROPAGATION_REQUIRED</prop> 
+		<prop key="edit*">PROPAGATION_REQUIRED</prop> <prop key="*">PROPAGATION_REQUIRED,readOnly</prop> 
+		</props> </property> </bean> -->
+		
+		
+		
+</beans>

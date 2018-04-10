@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        
+ http://www.springframework.org/schema/beans/spring-beans.xsd        
+ http://code.alibabatech.com/schema/dubbo         
+ http://code.alibabatech.com/schema/dubbo/dubbo.xsd"   default-lazy-init="false">
+	<!-- Application name -->
+	<dubbo:application  name="platform.console.account.service"  />
+	<!-- <dubbo:annotation package="app.server.service.impl"/>  -->
+	<!-- registry address, used for service to register itself -->
+	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
+	<!-- expose this service through dubbo protocol, through port 20880 -->
+	
+	
+	<!-- dubbo接口去除注册中心，采用直连的方式  -->
+    <!--  <dubbo:registry address="N/A" />  -->
+	
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry protocol="zookeeper"	address="${zookeeper.host}" />  
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20884"/>
+	<!-- <dubbo:protocol name="rest" port="9090"/> -->
+	<!-- which service interface do we expose? -->
+	
+	<!-- bean配置 -->
+	 <bean id="sqlSession"  class="org.mybatis.spring.SqlSessionTemplate">   
+          <constructor-arg index="0" ref="sqlSessionFactory" />   
+    </bean>
+	<!-- <bean id="costInfoDao" class="platform.jizhang.biu.service.persistence.dao.impl.CostInfoDaoImpl">  
+          <property name="sqlSession" ref="sqlSession" />  
+    </bean>  
+	<bean id="bankCardInfoDao" class="platform.jizhang.biu.service.persistence.dao.impl.BankCardInfoDaoImpl">  
+          <property name="sqlSession" ref="sqlSession" />  
+    </bean>  -->
+     
+    <dubbo:service interface="platform.jizhang.biu.service.AccountInfoService" ref="accountInfoService" timeout="2000"  retries="0" version="1.0.0"/>
+    
+
+	<bean id="accountInfoService"  class="platform.jizhang.biu.service.impl.AccountInfoServiceImpl" />
+    
+	 
+</beans> 

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="platform.jizhang.biu.service.persistence.mybatis.AccountInfoVOMapper" >
+  <resultMap id="BaseResultMap" type="platform.jizhang.biu.service.model.AccountInfoVO" >
+    <id column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="account_code" property="accountCode" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="dividend" property="dividend" jdbcType="DECIMAL" />
+    <result column="cumu_dividend" property="cumuDividend" jdbcType="DECIMAL" />
+    <result column="extract_pwd" property="extractPwd" jdbcType="VARCHAR" />
+    <result column="currency_name" property="currencyName" jdbcType="VARCHAR" />
+    <result column="currency_id" property="currencyId" jdbcType="INTEGER" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="BIGINT" />
+    <result column="agent_id" property="agentId" jdbcType="BIGINT" />
+    <result column="integral_value" property="integralValue" jdbcType="DECIMAL" />
+    <result column="total_recharge" property="totalRecharge" jdbcType="DECIMAL" />
+    <result column="ibc_sport_min" property="ibcSportMin" jdbcType="DECIMAL" />
+    <result column="ibc_sport_max" property="ibcSportMax" jdbcType="DECIMAL" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="bond" property="bond" jdbcType="DECIMAL" />
+    <result column="bond_balance" property="bondBalance" jdbcType="DECIMAL" />
+    <result column="bond_rate" property="bondRate" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    account_id, account_code, user_id, balance, dividend, cumu_dividend, extract_pwd, 
+    currency_name, currency_id, account_name, operator_id, agent_id, integral_value, 
+    total_recharge, ibc_sport_min, ibc_sport_max, total_amount, type, create_time, 
+    bond, bond_balance, bond_rate
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_info
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </select>
+  
+   <select id="selectByOneAccount"  resultType="java.math.BigDecimal">
+    select 
+    balance
+    from t_account_info
+    where account_name = #{account_name,jdbcType=VARCHAR} and type=#{type,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_info
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_account_info
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="platform.jizhang.biu.service.model.AccountInfoVO" >
+    insert into t_account_info (account_id, account_code, user_id, 
+      balance, dividend, cumu_dividend, 
+      extract_pwd, currency_name, currency_id, 
+      account_name, operator_id, agent_id, 
+      integral_value, total_recharge, ibc_sport_min, 
+      ibc_sport_max, total_amount, type
+      )
+    values (#{accountId,jdbcType=BIGINT}, #{accountCode,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{balance,jdbcType=DECIMAL}, #{dividend,jdbcType=DECIMAL}, #{cumuDividend,jdbcType=DECIMAL}, 
+      #{extractPwd,jdbcType=VARCHAR}, #{currencyName,jdbcType=VARCHAR}, #{currencyId,jdbcType=INTEGER}, 
+      #{accountName,jdbcType=VARCHAR}, #{operatorId,jdbcType=BIGINT}, #{agentId,jdbcType=BIGINT}, 
+      #{integralValue,jdbcType=DECIMAL}, #{totalRecharge,jdbcType=DECIMAL}, #{ibcSportMin,jdbcType=DECIMAL}, 
+      #{ibcSportMax,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{type,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.AccountInfoVO" 
+  			useGeneratedKeys="true" keyProperty="accountId">
+    insert into t_account_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="accountCode != null" >
+        account_code,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="dividend != null" >
+        dividend,
+      </if>
+      <if test="cumuDividend != null" >
+        cumu_dividend,
+      </if>
+      <if test="extractPwd != null" >
+        extract_pwd,
+      </if>
+      <if test="currencyName != null" >
+        currency_name,
+      </if>
+      <if test="currencyId != null" >
+        currency_id,
+      </if>
+      <if test="accountName != null" >
+        account_name,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="agentId != null" >
+        agent_id,
+      </if>
+      <if test="integralValue != null" >
+        integral_value,
+      </if>
+      <if test="totalRecharge != null" >
+        total_recharge,
+      </if>
+      <if test="ibcSportMin != null" >
+        ibc_sport_min,
+      </if>
+      <if test="ibcSportMax != null" >
+        ibc_sport_max,
+      </if>
+      <if test="totalAmount != null" >
+        total_amount,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="bond != null" >
+        bond,
+      </if>
+      <if test="bondBalance != null" >
+        bond_balance,
+      </if>
+      <if test="bondRate != null" >
+        bond_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="accountCode != null" >
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="dividend != null" >
+        #{dividend,jdbcType=DECIMAL},
+      </if>
+      <if test="cumuDividend != null" >
+        #{cumuDividend,jdbcType=DECIMAL},
+      </if>
+      <if test="extractPwd != null" >
+        #{extractPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyName != null" >
+        #{currencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyId != null" >
+        #{currencyId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="agentId != null" >
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="integralValue != null" >
+        #{integralValue,jdbcType=DECIMAL},
+      </if>
+      <if test="totalRecharge != null" >
+        #{totalRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="ibcSportMin != null" >
+        #{ibcSportMin,jdbcType=DECIMAL},
+      </if>
+      <if test="ibcSportMax != null" >
+        #{ibcSportMax,jdbcType=DECIMAL},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="bond != null" >
+        #{bond,jdbcType=DECIMAL},
+      </if>
+      <if test="bondBalance != null" >
+        #{bondBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="bondRate != null" >
+        #{bondRate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="platform.jizhang.biu.service.model.AccountInfoVO" >
+    update t_account_info
+    <set >
+      <if test="accountCode != null" >
+        account_code = #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="dividend != null" >
+        dividend = #{dividend,jdbcType=DECIMAL},
+      </if>
+      <if test="cumuDividend != null" >
+        cumu_dividend = #{cumuDividend,jdbcType=DECIMAL},
+      </if>
+      <if test="extractPwd != null" >
+        extract_pwd = #{extractPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyName != null" >
+        currency_name = #{currencyName,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyId != null" >
+        currency_id = #{currencyId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="agentId != null" >
+        agent_id = #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="integralValue != null" >
+        integral_value = #{integralValue,jdbcType=DECIMAL},
+      </if>
+      <if test="totalRecharge != null" >
+        total_recharge = #{totalRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="ibcSportMin != null" >
+        ibc_sport_min = #{ibcSportMin,jdbcType=DECIMAL},
+      </if>
+      <if test="ibcSportMax != null" >
+        ibc_sport_max = #{ibcSportMax,jdbcType=DECIMAL},
+      </if>
+      <if test="totalAmount != null" >
+        total_amount = #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="bond != null" >
+       bond = #{bond,jdbcType=DECIMAL},
+      </if>
+      <if test="bondBalance != null" >
+        bond_balance = #{bondBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="bondRate != null" >
+        bond_rate = #{bondRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="platform.jizhang.biu.service.model.AccountInfoVO" >
+    update t_account_info
+    set account_code = #{accountCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DECIMAL},
+      dividend = #{dividend,jdbcType=DECIMAL},
+      cumu_dividend = #{cumuDividend,jdbcType=DECIMAL},
+      extract_pwd = #{extractPwd,jdbcType=VARCHAR},
+      currency_name = #{currencyName,jdbcType=VARCHAR},
+      currency_id = #{currencyId,jdbcType=INTEGER},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      operator_id = #{operatorId,jdbcType=BIGINT},
+      agent_id = #{agentId,jdbcType=BIGINT},
+      integral_value = #{integralValue,jdbcType=DECIMAL},
+      total_recharge = #{totalRecharge,jdbcType=DECIMAL},
+      ibc_sport_min = #{ibcSportMin,jdbcType=DECIMAL},
+      ibc_sport_max = #{ibcSportMax,jdbcType=DECIMAL},
+      total_amount = #{totalAmount,jdbcType=DECIMAL},
+      type = #{type,jdbcType=INTEGER}
+    where account_id = #{accountId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="findAccountInfoById" parameterType="java.util.Map" resultType="java.util.Map">
+	  	select 
+	  		<include refid="Base_Column_List" />
+	  	from t_account_info 
+	  	<where>
+	  		<if test="user_id != null">
+	  			and user_id = #{user_id,jdbcType=INTEGER}
+	  		</if>
+	  		<if test="account_id != null">
+	  			and account_id = #{account_id,jdbcType=BIGINT}
+	  		</if>
+	  	</where>
+  </select>
+  
+  <select id="findAllByPage" parameterType="java.util.Map" resultType="java.util.Map">
+  	select <include refid="Base_Column_List" />
+  	from t_account_info
+  	<where>
+  		<if test="account_name != null">
+  			and account_name like concat('%',#{account_name,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="agent_id != null">
+  			and agent_id = #{agent_id,jdbcType=BIGINT}
+  		</if>
+  		<if test="operator_id != null">
+  			and operator_id = #{operator_id,jdbcType=BIGINT}
+  		</if>
+  		<if test="type != null">
+  			and type = #{type,jdbcType=INTEGER}
+  		</if>
+  	</where>
+  	order by create_time desc
+  	limit #{page_num,jdbcType=INTEGER}, #{page_size,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAllByCount" parameterType="java.util.Map" resultType="java.lang.Long">
+  	select count(1)
+  	from t_account_info
+  	<where>
+  		<if test="account_name != null">
+  			and account_name like concat('%',#{account_name,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="agent_id != null">
+  			and agent_id = #{agent_id,jdbcType=BIGINT}
+  		</if>
+  		<if test="operator_id != null">
+  			and operator_id = #{operator_id,jdbcType=BIGINT}
+  		</if>
+  		<if test="type != null">
+  			and type = #{type,jdbcType=INTEGER}
+  		</if>
+  	</where>
+  </select>
+  
+  <!-- 所有会员余额 -->
+  <select id="queryAccountBalance" parameterType="java.util.Map" resultType="java.util.Map">
+  	select
+		balance,
+		currency_name
+	from
+		t_account_info
+	<where>
+		type = 1
+		<if test="agent_id == null">
+			and operator_id = #{operator_id}
+		</if>
+		<if test="agent_id != null and agent_ids != null">
+			and operator_id = #{operator_id} and agent_id  in 
+			<foreach collection="agent_ids" open="(" separator="," close=")" item="agentId">
+				#{agentId}
+			</foreach>
+		</if>
+	</where>
+  </select>
+  
+  <select id="queryExistByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+  	select <include refid="Base_Column_List"/> from t_account_info
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByParMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> 
+  	from t_account_info
+    where account_name = #{account_name,jdbcType=VARCHAR}
+    and type = #{type,jdbcType=INTEGER}
+    and operator_id = #{operator_id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findAccountByType" parameterType="java.util.Map" resultType="java.util.Map">
+  	 select 
+	  <include refid="Base_Column_List"/> 
+	 from t_account_info
+  	 where  type = #{type,jdbcType=INTEGER}
+     and operator_id = #{operator_id,jdbcType=BIGINT}
+     <if test="agent_id != null">
+    	and agent_id = #{agent_id,jdbcType=BIGINT}
+     </if>
+  </select>
+  
+  <select id="findAccountInfoByName" parameterType="java.util.Map" resultType="java.util.Map">
+	  	select 
+	  		<include refid="Base_Column_List" />
+	  	from t_account_info 
+	  	<where>
+	  		<if test="account_name != null">
+	  			and account_name = #{account_name,jdbcType=VARCHAR}
+	  		</if>
+	  		<if test="operator_id != null">
+	  			and operator_id = #{operator_id,jdbcType=BIGINT}
+	  		</if>
+	  		<if test="agent_id == null">
+	  			and (agent_id is null or agent_id ='')
+	  		</if>
+	  		<if test="agent_id != null">
+	  			and agent_id = #{agent_id,jdbcType=BIGINT}
+	  		</if>
+	  	</where>
+  </select>
+  
+  <delete id="deleteByUserId" parameterType="java.lang.Long">
+  	delete from t_account_info where user_id = #{userId}
+  </delete>
+  
+  
+  
+  <update id="setOperaSecuritDeposit" parameterType="java.util.Map">
+  	update t_account_info set bond = #{bond} , bond_balance = #{bond_balance} 
+  	where operator_id = #{operator_id} and type = 3 and agent_id is null
+  </update>
+  
+  
+  
+  <!--用于检测会员用户是否存在  -->
+    <select id="selectByNameMap" parameterType="java.util.Map" resultType="java.lang.String">
+  	select  account_name
+  	from t_account_info
+   <where> type = #{type,jdbcType=INTEGER}
+   
+	<if test="operator_id != null">
+	  	      And operator_id = #{operator_id,jdbcType=BIGINT}
+    </if>
+	<if test="agent_id != null">
+	  	      And agent_id = #{agent_id,jdbcType=BIGINT}
+	</if>
+    <if test="account_name != null ">
+			 account_name  in 
+			<foreach collection="list" open="(" separator="," close=")" item="account_name">
+				#{account_name}
+			</foreach>
+	</if>
+   </where>
+  </select>
+  
+  
+</mapper>
