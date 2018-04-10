@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import com.alibaba.dubbo.config.annotation.Service;
 
 import platform.jizhang.biu.service.AccountInfoService;
-import platform.jizhang.biu.service.model.AccountInfoVO;
-import platform.jizhang.biu.service.persistence.mybatis.AccountInfoVOMapper;
+import platform.jizhang.biu.service.model.RoleVO;
+import platform.jizhang.biu.service.persistence.mybatis.RoleVOMapper;
 import platform.jizhang.biu.service.servlet.SpringPropertiesUtil;
 
 @Component
@@ -22,16 +22,16 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	private static final String BASEINFO_URL = SpringPropertiesUtil.getProperty("platform-base-info-api-url");
 	private static final String OPERATOR_URL = SpringPropertiesUtil.getProperty("platform-console-operator-api-url");
 
-	@Autowired(required = true)
-	private AccountInfoVOMapper accountInfoVOMapper;
-
+	@Autowired(required=true)
+	private RoleVOMapper roleMapper;
+	
 	@Override
 	public Map<String, Object> findAccountInfoById(Map<String, Object> reqMap) {
 
-		AccountInfoVO accountInfoVO = accountInfoVOMapper.selectByPrimaryKey(1L);
-		System.out.println(accountInfoVO.getAccountName());
+		RoleVO roleVO = roleMapper.selectByPrimaryKey(1);
+		System.out.println(roleVO.getRoleCode());
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("aname", accountInfoVO.getAccountName());
+		map.put("code", roleVO.getRoleCode());
 		return map;
 	}
 
