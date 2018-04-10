@@ -128,7 +128,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>ogamecloud.platform</groupId>
+			<groupId>platform.cache</groupId>
 			<artifactId>platform-cache</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
