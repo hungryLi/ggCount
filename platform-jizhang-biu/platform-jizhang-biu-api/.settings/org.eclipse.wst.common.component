@@ -4,6 +4,9 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="platform-common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/platform-common/platform-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="platform-jizhang-biu-interface-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/platform-jizhang-biu-interface/platform-jizhang-biu-interface">
             <dependency-type>uses</dependency-type>
         </dependent-module>

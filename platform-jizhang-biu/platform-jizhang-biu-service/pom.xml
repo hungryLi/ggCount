@@ -123,7 +123,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>ogamecloud.platform</groupId>
+			<groupId>platform.common</groupId>
 			<artifactId>platform-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
