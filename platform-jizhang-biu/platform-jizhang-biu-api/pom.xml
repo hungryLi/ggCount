@@ -9,7 +9,6 @@
   </parent>
   <groupId>platform.jizhang.biu.api</groupId>
   <artifactId>platform-jizhang-biu-api</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>platform-jizhang-biu-api Maven Webapp</name>
   <url>http://maven.apache.org</url>
