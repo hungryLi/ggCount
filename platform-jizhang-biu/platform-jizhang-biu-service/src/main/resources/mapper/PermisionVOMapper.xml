@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="platform.jizhang.biu.service.persistence.mybatis.PermisionVOMapper" >
+  <resultMap id="BaseResultMap" type="platform.jizhang.biu.service.model.PermisionVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="p_code" property="pCode" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="INTEGER" />
+    <result column="parent_menu" property="parentMenu" jdbcType="INTEGER" />
+    <result column="icon_type" property="iconType" jdbcType="INTEGER" />
+    <result column="icon_address" property="iconAddress" jdbcType="VARCHAR" />
+    <result column="menu_href" property="menuHref" jdbcType="VARCHAR" />
+    <result column="p_desc" property="pDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, p_name, p_code, menu_name, menu_type, parent_menu, icon_type, icon_address, menu_href, 
+    p_desc
+  </sql>
+  
+  <select id="selectPermisions" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	SELECT
+		p.*
+	FROM
+		jz_role_permision r
+	LEFT JOIN jz_permision p ON r.permision_id = p.id
+	WHERE
+		r.role_id = #{0}
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jz_permision
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jz_permision
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="platform.jizhang.biu.service.model.PermisionVO" >
+    insert into jz_permision (id, p_name, p_code, 
+      menu_name, menu_type, parent_menu, 
+      icon_type, icon_address, menu_href, 
+      p_desc)
+    values (#{id,jdbcType=INTEGER}, #{pName,jdbcType=VARCHAR}, #{pCode,jdbcType=VARCHAR}, 
+      #{menuName,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER}, #{parentMenu,jdbcType=INTEGER}, 
+      #{iconType,jdbcType=INTEGER}, #{iconAddress,jdbcType=VARCHAR}, #{menuHref,jdbcType=VARCHAR}, 
+      #{pDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.PermisionVO" >
+    insert into jz_permision
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+      <if test="pCode != null" >
+        p_code,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuType != null" >
+        menu_type,
+      </if>
+      <if test="parentMenu != null" >
+        parent_menu,
+      </if>
+      <if test="iconType != null" >
+        icon_type,
+      </if>
+      <if test="iconAddress != null" >
+        icon_address,
+      </if>
+      <if test="menuHref != null" >
+        menu_href,
+      </if>
+      <if test="pDesc != null" >
+        p_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        #{menuType,jdbcType=INTEGER},
+      </if>
+      <if test="parentMenu != null" >
+        #{parentMenu,jdbcType=INTEGER},
+      </if>
+      <if test="iconType != null" >
+        #{iconType,jdbcType=INTEGER},
+      </if>
+      <if test="iconAddress != null" >
+        #{iconAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="menuHref != null" >
+        #{menuHref,jdbcType=VARCHAR},
+      </if>
+      <if test="pDesc != null" >
+        #{pDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="platform.jizhang.biu.service.model.PermisionVO" >
+    update jz_permision
+    <set >
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null" >
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        menu_type = #{menuType,jdbcType=INTEGER},
+      </if>
+      <if test="parentMenu != null" >
+        parent_menu = #{parentMenu,jdbcType=INTEGER},
+      </if>
+      <if test="iconType != null" >
+        icon_type = #{iconType,jdbcType=INTEGER},
+      </if>
+      <if test="iconAddress != null" >
+        icon_address = #{iconAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="menuHref != null" >
+        menu_href = #{menuHref,jdbcType=VARCHAR},
+      </if>
+      <if test="pDesc != null" >
+        p_desc = #{pDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="platform.jizhang.biu.service.model.PermisionVO" >
+    update jz_permision
+    set p_name = #{pName,jdbcType=VARCHAR},
+      p_code = #{pCode,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=INTEGER},
+      parent_menu = #{parentMenu,jdbcType=INTEGER},
+      icon_type = #{iconType,jdbcType=INTEGER},
+      icon_address = #{iconAddress,jdbcType=VARCHAR},
+      menu_href = #{menuHref,jdbcType=VARCHAR},
+      p_desc = #{pDesc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
