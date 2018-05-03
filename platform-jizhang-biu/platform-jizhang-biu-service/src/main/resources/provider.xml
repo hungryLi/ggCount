@@ -35,9 +35,12 @@
     </bean>  -->
      
     <dubbo:service interface="platform.jizhang.biu.service.AccountInfoService" ref="accountInfoService" timeout="2000"  retries="0" version="1.0.0"/>
+	<bean id="accountInfoService"  class="platform.jizhang.biu.service.impl.AccountInfoServiceImpl" />
+     
+    <dubbo:service interface="platform.jizhang.biu.service.AuthService" ref="authService" timeout="2000"  retries="0" version="1.0.0"/>
+	<bean id="authService"  class="platform.jizhang.biu.service.impl.AuthServiceImpl" />
     
 
-	<bean id="accountInfoService"  class="platform.jizhang.biu.service.impl.AccountInfoServiceImpl" />
     
 	 
 </beans> 

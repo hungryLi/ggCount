@@ -13,12 +13,17 @@ public class TestOne {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("user_id", 691);
+		map.put("login_id", "admin");
+		map.put("passwd", "admin");
+		map.put("user_id", 1);
 		
 		String url = "http://127.0.0.1:8081/platform-jizhang-biu-api/accountinfo/query_account_info";
-		String res = HttpUtil.doPost(url , MiscUtil.createRequestParm(map));
+		String url1 = "http://127.0.0.1:8081/platform-jizhang-biu-api/auth/login";
+		String url3 = "http://127.0.0.1:8081/platform-jizhang-biu-api/auth/get_permisions";
+		String res = HttpUtil.doPost(url3 , MiscUtil.createRequestParm(map));
 		
 		System.out.println(res);
+		
 		
 	}
 

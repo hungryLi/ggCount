@@ -20,12 +20,6 @@ import com.alibaba.fastjson.TypeReference;
 import platform.common.utils.MiscUtil;
 import platform.jizhang.biu.service.AccountInfoService;
 
-/**
- * 账户充值
- * 
- * @author Liujf
- *
- */
 @Controller
 @RequestMapping("/accountinfo")
 public class AccountInfoController {
@@ -56,9 +50,6 @@ public class AccountInfoController {
 			Map<String, Object> parMap = new HashMap<String, Object>();
 			if (!StringUtils.isBlank(reqMap.get("user_id"))) {
 				parMap.put("user_id", Integer.valueOf(reqMap.get("user_id")));
-			}
-			if (!StringUtils.isBlank(reqMap.get("account_id"))) {
-				parMap.put("account_id", Integer.valueOf(reqMap.get("account_id")));
 			}
 			Map<String, Object> data = accountInfoService.findAccountInfoById(parMap);
 			jsonObject.put("code", 0);

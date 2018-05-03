@@ -20,6 +20,7 @@
 	
 	<!-- 生成远程服务代理，可以像使用本地bean一样使用demoService -->
 	<dubbo:reference id="accountInfoService"  interface="platform.jizhang.biu.service.AccountInfoService" timeout="2000" version="1.0.0"/>
+	<dubbo:reference id="authService"  interface="platform.jizhang.biu.service.AuthService" timeout="2000" version="1.0.0"/>
 	
 	
 </beans>

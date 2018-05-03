@@ -1,6 +1,7 @@
 package platform.jizhang.biu.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -32,6 +33,9 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 		System.out.println(roleVO.getRoleCode());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("code", roleVO.getRoleCode());
+		
+		List<Map<String, Object>> resMap = roleMapper.selectTest(reqMap);
+		System.out.println(" ====>   "+resMap.size());
 		return map;
 	}
 
