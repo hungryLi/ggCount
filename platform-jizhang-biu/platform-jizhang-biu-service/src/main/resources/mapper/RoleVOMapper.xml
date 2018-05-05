@@ -10,6 +10,16 @@
   <sql id="Base_Column_List" >
     id, role_name, role_code, role_desc
   </sql>
+
+  <select id="countRole" resultType="java.lang.Integer">
+  	select count(1) from jz_role
+  </select>  
+  
+  <select id="queryRoles" parameterType="java.util.Map" resultType="java.util.Map">
+  	select 
+  	<include refid="Base_Column_List" />
+    from jz_role limit #{page_num,jdbcType=INTEGER} , #{page_size,jdbcType=INTEGER}
+  </select>
   
   <select id="selectTest" parameterType="java.util.Map" resultType="java.util.Map">
   	select * from jz_role 

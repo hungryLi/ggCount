@@ -19,4 +19,8 @@ public interface RoleVOMapper {
     int updateByPrimaryKey(RoleVO record);
 
 	List<Map<String, Object>>  selectTest(Map<String, Object> reqMap);
+
+	Integer countRole();
+
+	List<Map<String, Object>> queryRoles(Map<String, Object> reqMap);
 }

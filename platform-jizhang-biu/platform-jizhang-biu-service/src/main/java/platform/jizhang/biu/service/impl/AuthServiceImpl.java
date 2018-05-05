@@ -11,6 +11,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import net.sf.json.JSONObject;
 import platform.common.utils.MiscUtil;
 import platform.jizhang.biu.service.AuthService;
+import platform.jizhang.biu.service.model.RoleVO;
 import platform.jizhang.biu.service.persistence.mybatis.PermisionVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.RoleVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.UserRoleVOMapper;
@@ -68,6 +69,42 @@ public class AuthServiceImpl implements AuthService {
 		List<Map<String, Object>> menuList = permisionMapper.selectPermisions(roleId);
 		
 		return null;
+	}
+
+	@Override
+	public String getRoles(Map<String, Object> reqMap) throws Exception {
+		JSONObject json = new JSONObject();
+		Integer pageNum  = Integer.valueOf(reqMap.get("page_num").toString());
+		Integer pageSize  = Integer.valueOf(reqMap.get("page_size").toString());
+		reqMap.put("page_num", (pageNum.intValue() - 1) * pageSize.intValue());
+//		Integer total = roleMapper.countRole();
+		List<Map<String, Object>> roles = roleMapper.queryRoles(reqMap);
+		json.put("code", 1000);
+		json.put("msg", "success");
+//		json.put("count", total);
+		json.put("res_data", roles);
+		return json.toString();
+	}
+
+	@Override
+	public String updateRoles(Map<String, Object> reqMap) throws Exception {
+		MiscUtil.convertMap(reqMap);
+		JSONObject json = new JSONObject();
+		RoleVO role = new RoleVO();
+		role.setRoleName(reqMap.get("role_name").toString());
+		role.setRoleCode(reqMap.get("role_code").toString());
+		if(!MiscUtil.isEmpty(reqMap.get("role_desc"))) {
+			role.setRoleDesc(reqMap.get("role_desc").toString());
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("role_id"))) {
+			role.setId(Integer.valueOf(reqMap.get("role_id").toString()));
+			roleMapper.updateByPrimaryKeySelective(role);
+		}else {
+			roleMapper.insertSelective(role);
+		}
+		json.put("code", 1000);
+		json.put("msg", "success");
+		return json.toString();
 	}
 
 	

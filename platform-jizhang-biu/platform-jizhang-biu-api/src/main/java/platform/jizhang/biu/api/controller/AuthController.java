@@ -78,4 +78,48 @@ public class AuthController {
 		}
 	}
 	
+	@RequestMapping(value = "/role_list")
+	@ResponseBody
+	public String queryRoles(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("page_num")) || MiscUtil.isEmpty(reqMap.get("page_size"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[page_num，page_size]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.getRoles(reqMap);
+		} catch (Exception e) {
+			logger.error("--> 查询角色信息列表异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "查询角色信息列表异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	@RequestMapping(value = "/role_update")
+	@ResponseBody
+	public String updateRoles(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("role_name")) || MiscUtil.isEmpty(reqMap.get("role_code"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[role_name，role_code]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.updateRoles(reqMap);
+		} catch (Exception e) {
+			logger.error("-->更新异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "更新角色异常异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
 }
