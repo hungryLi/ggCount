@@ -11,6 +11,16 @@
     id, role_name, role_code, role_desc
   </sql>
 
+  <select id="queryLoginRoles" parameterType="java.lang.Integer" resultType="java.util.Map">
+	select
+		*
+	from
+		jz_role r
+	left join jz_user_role ur on r.id = ur.role_id
+	where
+		ur.user_id = #{0}
+  </select>
+
   <select id="countRole" resultType="java.lang.Integer">
   	select count(1) from jz_role
   </select>  

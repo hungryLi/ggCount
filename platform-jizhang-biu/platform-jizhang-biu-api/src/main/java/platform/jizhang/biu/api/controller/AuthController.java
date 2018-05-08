@@ -56,9 +56,32 @@ public class AuthController {
 	}
 	
 	//  get_permisions
-	@RequestMapping(value = "/get_permisions")
+	@RequestMapping(value = "/get_menu_permisions")
 	@ResponseBody
 	public String queryMenuPermisons(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("user_id")) || MiscUtil.isEmpty(reqMap.get("role_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[user_id,role_id]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.getPermisonsById(reqMap);
+		} catch (Exception e) {
+			logger.error("--> 用户登录获取菜单列表异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	// 获取登录用户权限列表
+	@RequestMapping(value = "/login_permisions")
+	@ResponseBody
+	public String queryLoginPermisons(HttpServletResponse resp, HttpServletRequest req) {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
@@ -69,9 +92,32 @@ public class AuthController {
 				jsonObject.put("msg", "[user_id]必填参数为空");
 				return jsonObject.toJSONString();
 			}
-			return authService.getPermisonsById(reqMap);
+			return authService.getLoginPermisons(reqMap);
 		} catch (Exception e) {
-			logger.error("--> 用户登录获取菜单列表异常");
+			logger.error("--> 用户登录获取权限列表异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	// 获取登录用户角色列表
+	@RequestMapping(value = "/login_roles")
+	@ResponseBody
+	public String queryLoginRoles(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("user_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[user_id]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.getLoginRoles(reqMap);
+		} catch (Exception e) {
+			logger.error("--> 获取登录用户角色列表异常");
 			jsonObject.put("code", 2);
 			jsonObject.put("msg", "异常");
 			return jsonObject.toJSONString();

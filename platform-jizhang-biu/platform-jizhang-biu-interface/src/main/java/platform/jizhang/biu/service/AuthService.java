@@ -11,5 +11,9 @@ public interface AuthService {
 	String getRoles(Map<String, Object> reqMap) throws Exception;
 
 	String updateRoles(Map<String, Object> reqMap) throws Exception;
+
+	String getLoginPermisons(Map<String, Object> reqMap) throws Exception;
+
+	String getLoginRoles(Map<String, Object> reqMap) throws Exception;
 	
 }

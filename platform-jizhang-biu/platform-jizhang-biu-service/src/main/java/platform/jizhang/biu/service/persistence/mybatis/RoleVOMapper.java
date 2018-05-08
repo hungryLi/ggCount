@@ -23,4 +23,6 @@ public interface RoleVOMapper {
 	Integer countRole();
 
 	List<Map<String, Object>> queryRoles(Map<String, Object> reqMap);
+
+	List<Map<String, Object>> queryLoginRoles(Integer user_id);
 }

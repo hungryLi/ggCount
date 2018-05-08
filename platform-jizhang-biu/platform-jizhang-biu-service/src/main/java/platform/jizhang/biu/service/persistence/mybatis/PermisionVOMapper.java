@@ -18,5 +18,7 @@ public interface PermisionVOMapper {
 
     int updateByPrimaryKey(PermisionVO record);
 
-	List<Map<String, Object>> selectPermisions(Integer roleId);
+	List<Map<String, Object>> selectPermisions(Integer userId,Integer roleId,Integer menuType);
+
+	List<Map<String, Object>> queryLoginPermisions(Integer user_id);
 }

@@ -18,14 +18,32 @@
     p_desc
   </sql>
   
-  <select id="selectPermisions" parameterType="java.lang.Integer" resultType="java.util.Map">
-  	SELECT
+  <select id="queryLoginPermisions" parameterType="java.lang.Integer" resultType="java.util.Map">
+	 select
 		p.*
-	FROM
+	from
+		jz_permision p
+	left join jz_role_permision rp on p.id = rp.permision_id
+	where
+		rp.role_id = (
+			select
+				ur.role_id
+			from
+				jz_user_role ur
+			left join jz_user u on ur.user_id = u.id
+			where
+				u.id = #{0}
+		)
+  </select>
+  
+  <select id="selectPermisions" resultType="java.util.Map">
+  	select
+		p.*
+	from
 		jz_role_permision r
-	LEFT JOIN jz_permision p ON r.permision_id = p.id
-	WHERE
-		r.role_id = #{0}
+	left join jz_permision p on r.permision_id = p.id
+	where
+		r.role_id = #{1} and p.menu_type = #{2} order by p.menu_index asc
   </select>
   
   

@@ -59,16 +59,49 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	/**
+	 * 登录用户权限列表（所有权限）
+	 */
+	@Override
+	public String getLoginPermisons(Map<String, Object> reqMap) throws Exception {
+		Integer user_id = Integer.valueOf(reqMap.get("user_id").toString());
+		List<Map<String, Object>> permisions = permisionMapper.queryLoginPermisions(user_id);
+		JSONObject retjson = new JSONObject();
+		retjson.put("code", 0);
+		retjson.put("msg", "success");
+		retjson.put("res_data", permisions);
+		return retjson.toString();
+	}
+	
+	/**
+	 * 登录用户角色列表
+	 */
+	@Override
+	public String getLoginRoles(Map<String, Object> reqMap) throws Exception {
+		Integer user_id = Integer.valueOf(reqMap.get("user_id").toString());
+		List<Map<String, Object>> roles = roleMapper.queryLoginRoles(user_id);
+		JSONObject retjson = new JSONObject();
+		retjson.put("code", 0);
+		retjson.put("msg", "success");
+		retjson.put("res_data", roles);
+		return retjson.toString();
+	}
+	
+	/**
 	 * 登录后查询所有的菜单信息
 	 */
 	@Override
 	public String getPermisonsById(Map<String, Object> reqMap) throws Exception {
 		Integer userId = Integer.valueOf(reqMap.get("user_id").toString());
-		Map<String, Object> roles = userRoleMapper.selectRolesByUserId(userId);
-		Integer roleId = Integer.valueOf(roles.get("role_id").toString());
-		List<Map<String, Object>> menuList = permisionMapper.selectPermisions(roleId);
-		
-		return null;
+//		Map<String, Object> roles = userRoleMapper.selectRolesByUserId(userId);
+		Integer roleId = Integer.valueOf(reqMap.get("role_id").toString());
+		List<Map<String, Object>> oneList = permisionMapper.selectPermisions(userId,roleId,1);
+		List<Map<String, Object>> twoList = permisionMapper.selectPermisions(userId,roleId,2);
+		JSONObject menuJson = new JSONObject();
+		menuJson.put("code", 0);
+		menuJson.put("msg", "success");
+		menuJson.put("one_menu", oneList);
+		menuJson.put("two_menu", twoList);
+		return menuJson.toString();
 	}
 
 	@Override
@@ -106,6 +139,8 @@ public class AuthServiceImpl implements AuthService {
 		json.put("msg", "success");
 		return json.toString();
 	}
+
+
 
 	
 	

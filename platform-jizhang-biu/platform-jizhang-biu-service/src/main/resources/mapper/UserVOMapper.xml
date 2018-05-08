@@ -15,9 +15,14 @@
   </resultMap>
   
   <select id="selectUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
-	select  
-		<include refid="Base_Column_List" /> 
-		from jz_user where user_name = #{login_id,jdbcType=VARCHAR} and password = #{passwd,jdbcType=VARCHAR}
+	select
+		u.*,ur.role_id
+	from
+		jz_user_role ur
+	left join jz_user u ON ur.user_id = u.id
+	where
+		u.user_name = #{login_id,jdbcType=VARCHAR}
+	and u.password =  #{passwd,jdbcType=VARCHAR}
   </select>
   
   <select id="selectUserByName" parameterType="java.lang.String" resultType="java.lang.Integer">
