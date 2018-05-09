@@ -119,6 +119,22 @@ public class AuthServiceImpl implements AuthService {
 		return json.toString();
 	}
 
+
+	@Override
+	public String getPermisions(Map<String, Object> reqMap) throws Exception {
+		JSONObject json = new JSONObject();
+		Integer pageNum  = Integer.valueOf(reqMap.get("page_num").toString());
+		Integer pageSize  = Integer.valueOf(reqMap.get("page_size").toString());
+		reqMap.put("page_num", (pageNum.intValue() - 1) * pageSize.intValue());
+		Integer total = permisionMapper.countPermisons(reqMap);
+		List<Map<String, Object>> permisions = permisionMapper.queryRoles(reqMap);
+		json.put("code", 1000);
+		json.put("msg", "success");
+		json.put("count", total);
+		json.put("res_data", permisions);
+		return json.toString();
+	}
+	
 	@Override
 	public String updateRoles(Map<String, Object> reqMap) throws Exception {
 		MiscUtil.convertMap(reqMap);
@@ -139,6 +155,7 @@ public class AuthServiceImpl implements AuthService {
 		json.put("msg", "success");
 		return json.toString();
 	}
+
 
 
 

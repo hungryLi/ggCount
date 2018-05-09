@@ -146,6 +146,28 @@ public class AuthController {
 		}
 	}
 	
+	@RequestMapping(value = "/permision_list")
+	@ResponseBody
+	public String queryPermisions(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("page_num")) || MiscUtil.isEmpty(reqMap.get("page_size"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[page_num，page_size]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.getPermisions(reqMap);
+		} catch (Exception e) {
+			logger.error("--> 查询权限信息列表异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "查询权限信息列表异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
 	@RequestMapping(value = "/role_update")
 	@ResponseBody
 	public String updateRoles(HttpServletResponse resp, HttpServletRequest req) {

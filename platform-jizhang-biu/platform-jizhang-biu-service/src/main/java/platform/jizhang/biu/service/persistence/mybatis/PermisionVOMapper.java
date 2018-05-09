@@ -21,4 +21,8 @@ public interface PermisionVOMapper {
 	List<Map<String, Object>> selectPermisions(Integer userId,Integer roleId,Integer menuType);
 
 	List<Map<String, Object>> queryLoginPermisions(Integer user_id);
+
+	Integer countPermisons(Map<String, Object> reqMap);
+
+	List<Map<String, Object>> queryRoles(Map<String, Object> reqMap);
 }

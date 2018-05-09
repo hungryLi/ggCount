@@ -46,7 +46,24 @@
 		r.role_id = #{1} and p.menu_type = #{2} order by p.menu_index asc
   </select>
   
+  <select id="countPermisons" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from jz_permision 
+  	<where>
+  		<if test="p_name != null">
+  			and p_name like concat('%',#{p_name,jdbcType=VARCHAR},'%')
+  		</if>
+  	</where>
+  </select>
   
+  <select id="queryRoles" parameterType="java.util.Map" resultType="java.util.Map">
+  		select <include refid="Base_Column_List" /> from jz_permision jz_permision
+  		<where>
+  			<if test="p_name != null">
+	  			and p_name like concat('%',#{p_name,jdbcType=VARCHAR},'%')
+	  		</if>
+  		</where>
+  		limit #{page_num,jdbcType=INTEGER},#{page_size,jdbcType=INTEGER}
+  </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
