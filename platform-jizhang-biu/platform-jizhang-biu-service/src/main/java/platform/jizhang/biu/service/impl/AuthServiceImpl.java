@@ -11,8 +11,10 @@ import com.alibaba.dubbo.config.annotation.Service;
 import net.sf.json.JSONObject;
 import platform.common.utils.MiscUtil;
 import platform.jizhang.biu.service.AuthService;
+import platform.jizhang.biu.service.model.PermisionVO;
 import platform.jizhang.biu.service.model.RoleVO;
 import platform.jizhang.biu.service.persistence.mybatis.PermisionVOMapper;
+import platform.jizhang.biu.service.persistence.mybatis.RolePermisionVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.RoleVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.UserRoleVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.UserVOMapper;
@@ -33,6 +35,9 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired(required = true)
 	private PermisionVOMapper permisionMapper;
+	
+	@Autowired(required = true)
+	private RolePermisionVOMapper rolePermisionMapper;
 	
 	@Override
 	public String doLogin(Map<String, Object> reqMap) throws Exception {
@@ -151,6 +156,73 @@ public class AuthServiceImpl implements AuthService {
 		}else {
 			roleMapper.insertSelective(role);
 		}
+		json.put("code", 1000);
+		json.put("msg", "success");
+		return json.toString();
+	}
+
+	/**
+	 * 父级别菜单列表
+	 */
+	@Override
+	public String queryParentMenus(Map<String, Object> reqMap) throws Exception {
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
+		json.put("res_data", permisionMapper.selectOneMenus());
+		return json.toString();
+	}
+
+	/**
+	 * 添加权限
+	 */
+	@Override
+	public String addPermission(Map<String, Object> reqMap) throws Exception {
+		MiscUtil.convertMap(reqMap);
+		PermisionVO pvo = new PermisionVO();
+		if(!MiscUtil.isEmpty(reqMap.get("p_name"))) {
+			pvo.setpName(reqMap.get("p_name").toString());
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("p_code"))) {
+			pvo.setpCode(reqMap.get("p_code").toString());
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("menu_name"))) {
+			pvo.setMenuName(reqMap.get("menu_name").toString());
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("parent_menu"))) {
+			pvo.setParentMenu(Integer.valueOf(reqMap.get("parent_menu").toString()));
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("menu_type"))) {
+			pvo.setMenuType(Integer.valueOf(reqMap.get("menu_type").toString()));
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("icon_type"))) {
+			pvo.setIconType(Integer.valueOf(reqMap.get("icon_type").toString()));
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("icon_address"))) {
+			pvo.setIconAddress(reqMap.get("icon_address").toString());
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("menu_href"))) {
+			pvo.setMenuHref(reqMap.get("menu_href").toString());
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("menu_index"))) {
+			pvo.setMenuIndex(Integer.valueOf(reqMap.get("menu_index").toString()));
+		}
+		if(!MiscUtil.isEmpty(reqMap.get("p_desc"))) {
+			pvo.setpDesc(reqMap.get("p_desc").toString());
+		}
+		permisionMapper.insertSelective(pvo);
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
+		return json.toString();
+	}
+
+	@Override
+	public String delPermission(Map<String, Object> reqMap) throws Exception {
+		Integer pId = Integer.valueOf(reqMap.get("p_id").toString());
+		permisionMapper.deleteByPrimaryKey(pId);
+		rolePermisionMapper.deletePermision(pId);
+		JSONObject json = new JSONObject();
 		json.put("code", 1000);
 		json.put("msg", "success");
 		return json.toString();

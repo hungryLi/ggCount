@@ -9,6 +9,11 @@
   <sql id="Base_Column_List" >
     id, role_id, permision_id
   </sql>
+  
+  <delete id="deletePermision" parameterType="java.lang.Integer">
+  	delete from jz_role_permision where permision_id = #{0,jdbcType=INTEGER}
+  </delete>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

@@ -190,4 +190,68 @@ public class AuthController {
 		}
 	}
 	
+	@RequestMapping(value = "/parent_permision_list")
+	@ResponseBody
+	public String parentPermisionList(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			return authService.queryParentMenus(reqMap);
+		} catch (Exception e) {
+			logger.error("-->更新异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "查询所有的一级菜单异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	/**
+	 * 添加权限 
+	 * @return
+	 */
+	@RequestMapping(value = "/permision_add")
+	@ResponseBody
+	public String addPermission(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			return authService.addPermission(reqMap);
+		} catch (Exception e) {
+			logger.error("-->permision_add异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "permision_add异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	/**
+	 * 删除权限 
+	 * @return
+	 */
+	@RequestMapping(value = "/permision_delete")
+	@ResponseBody
+	public String delPermission(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("p_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[p_id]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.delPermission(reqMap);
+		} catch (Exception e) {
+			logger.error("-->permision_del 异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "permision_del 异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
 }

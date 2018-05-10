@@ -18,8 +18,18 @@ public class PermisionVO {
     private String iconAddress;
 
     private String menuHref;
+    
+    private Integer menuIndex;
 
-    private String pDesc;
+    public Integer getMenuIndex() {
+		return menuIndex;
+	}
+
+	public void setMenuIndex(Integer menuIndex) {
+		this.menuIndex = menuIndex;
+	}
+
+	private String pDesc;
 
     public Integer getId() {
         return id;

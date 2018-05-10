@@ -14,4 +14,6 @@ public interface RolePermisionVOMapper {
     int updateByPrimaryKeySelective(RolePermisionVO record);
 
     int updateByPrimaryKey(RolePermisionVO record);
+
+	int deletePermision(Integer pId);
 }

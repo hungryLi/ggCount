@@ -17,5 +17,11 @@ public interface AuthService {
 	String getLoginRoles(Map<String, Object> reqMap) throws Exception;
 
 	String getPermisions(Map<String, Object> reqMap) throws Exception;
+
+	String queryParentMenus(Map<String, Object> reqMap) throws Exception;
+
+	String addPermission(Map<String, Object> reqMap) throws Exception;
+
+	String delPermission(Map<String, Object> reqMap) throws Exception;
 	
 }

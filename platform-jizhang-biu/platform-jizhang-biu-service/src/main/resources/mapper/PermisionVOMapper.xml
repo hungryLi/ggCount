@@ -11,12 +11,20 @@
     <result column="icon_type" property="iconType" jdbcType="INTEGER" />
     <result column="icon_address" property="iconAddress" jdbcType="VARCHAR" />
     <result column="menu_href" property="menuHref" jdbcType="VARCHAR" />
+    <result column="menu_index" property="menuIndex" jdbcType="INTEGER" />
     <result column="p_desc" property="pDesc" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, p_name, p_code, menu_name, menu_type, parent_menu, icon_type, icon_address, menu_href, 
+    id, p_name, p_code, menu_name, menu_type, parent_menu, icon_type, icon_address,menu_index, menu_href, 
     p_desc
   </sql>
+  
+  <select id="selectOneMenus" resultType="java.util.Map">
+  	select 
+  	 <include refid="Base_Column_List" />
+    from jz_permision
+    where parent_menu is null
+  </select>
   
   <select id="queryLoginPermisions" parameterType="java.lang.Integer" resultType="java.util.Map">
 	 select
@@ -78,11 +86,11 @@
   <insert id="insert" parameterType="platform.jizhang.biu.service.model.PermisionVO" >
     insert into jz_permision (id, p_name, p_code, 
       menu_name, menu_type, parent_menu, 
-      icon_type, icon_address, menu_href, 
+      icon_type, icon_address, menu_href, menu_index,
       p_desc)
     values (#{id,jdbcType=INTEGER}, #{pName,jdbcType=VARCHAR}, #{pCode,jdbcType=VARCHAR}, 
       #{menuName,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER}, #{parentMenu,jdbcType=INTEGER}, 
-      #{iconType,jdbcType=INTEGER}, #{iconAddress,jdbcType=VARCHAR}, #{menuHref,jdbcType=VARCHAR}, 
+      #{iconType,jdbcType=INTEGER}, #{iconAddress,jdbcType=VARCHAR}, #{menuHref,jdbcType=VARCHAR},#{menuIndex,jdbcType=INTEGER},  
       #{pDesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.PermisionVO" >
@@ -114,6 +122,9 @@
       </if>
       <if test="menuHref != null" >
         menu_href,
+      </if>
+      <if test="menuIndex != null" >
+        menu_index,
       </if>
       <if test="pDesc != null" >
         p_desc,
@@ -147,6 +158,9 @@
       <if test="menuHref != null" >
         #{menuHref,jdbcType=VARCHAR},
       </if>
+      <if test="menuIndex != null" >
+        #{menuIndex,jdbcType=INTEGER},
+      </if>
       <if test="pDesc != null" >
         #{pDesc,jdbcType=VARCHAR},
       </if>
@@ -179,6 +193,9 @@
       <if test="menuHref != null" >
         menu_href = #{menuHref,jdbcType=VARCHAR},
       </if>
+      <if test="menuIndex != null" >
+        menu_index = #{menuIndex,jdbcType=INTEGER},
+      </if>
       <if test="pDesc != null" >
         p_desc = #{pDesc,jdbcType=VARCHAR},
       </if>
@@ -195,6 +212,7 @@
       icon_type = #{iconType,jdbcType=INTEGER},
       icon_address = #{iconAddress,jdbcType=VARCHAR},
       menu_href = #{menuHref,jdbcType=VARCHAR},
+      menu_index = #{menuIndex,jdbcType=INTEGER},
       p_desc = #{pDesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

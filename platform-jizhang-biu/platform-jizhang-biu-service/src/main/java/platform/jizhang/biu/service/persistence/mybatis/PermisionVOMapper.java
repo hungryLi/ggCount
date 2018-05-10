@@ -25,4 +25,6 @@ public interface PermisionVOMapper {
 	Integer countPermisons(Map<String, Object> reqMap);
 
 	List<Map<String, Object>> queryRoles(Map<String, Object> reqMap);
+
+	List<Map<String, Object>> selectOneMenus();
 }
