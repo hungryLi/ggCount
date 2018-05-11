@@ -107,7 +107,16 @@ public class PermisionVO {
         return pDesc;
     }
 
-    public void setpDesc(String pDesc) {
+    @Override
+	public String toString() {
+		return "{\"id\":\"" + id + "\",\"pName\":\"" + pName + "\",\"pCode\":\"" + pCode + "\",\"menuName\":\""
+				+ menuName + "\",\"menuType\":\"" + menuType + "\",\"parentMenu\":\"" + parentMenu
+				+ "\",\"iconType\":\"" + iconType + "\",\"iconAddress\":\"" + iconAddress + "\",\"menuHref\":\""
+				+ menuHref + "\",\"menuIndex\":\"" + menuIndex + "\",\"pDesc\":\"" + pDesc + "\"} ";
+	}
+
+	public void setpDesc(String pDesc) {
         this.pDesc = pDesc == null ? null : pDesc.trim();
     }
+    
 }

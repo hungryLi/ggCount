@@ -10,6 +10,29 @@
     id, role_id, permision_id
   </sql>
   
+  <select id="countHasPermisons" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from jz_role_permision rp 
+		left join jz_permision p on rp.permision_id  = p.id 
+		<where>
+			and rp.role_id = #{r_id,jdbcType=INTEGER}
+			<if test="p_name != null">
+				and p.p_name like concat('%',#{p_name,jdbcType=VARCHAR},'%')
+			</if>
+		</where> 
+  </select>
+  
+  <select id="queryHasPermison" parameterType="java.util.Map" resultType="java.util.Map">
+	select p.p_name,p.p_code,p.menu_name from  jz_role_permision rp 
+		left join jz_permision p on rp.permision_id  = p.id 
+		<where>
+			and rp.role_id = #{r_id,jdbcType=INTEGER}
+			<if test="p_name != null">
+				and p.p_name like concat('%',#{p_name,jdbcType=VARCHAR},'%')
+			</if>
+		</where> 
+		limit #{page_num,jdbcType=INTEGER},#{page_size,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deletePermision" parameterType="java.lang.Integer">
   	delete from jz_role_permision where permision_id = #{0,jdbcType=INTEGER}
   </delete>

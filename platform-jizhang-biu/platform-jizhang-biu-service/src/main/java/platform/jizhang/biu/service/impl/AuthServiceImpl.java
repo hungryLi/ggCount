@@ -210,7 +210,12 @@ public class AuthServiceImpl implements AuthService {
 		if(!MiscUtil.isEmpty(reqMap.get("p_desc"))) {
 			pvo.setpDesc(reqMap.get("p_desc").toString());
 		}
-		permisionMapper.insertSelective(pvo);
+		if(MiscUtil.isEmpty(reqMap.get("p_id"))) {
+			permisionMapper.insertSelective(pvo);
+		}else {
+			pvo.setId(Integer.valueOf(reqMap.get("p_id").toString()));
+			permisionMapper.updateByPrimaryKey(pvo);
+		}
 		JSONObject json = new JSONObject();
 		json.put("code", 1000);
 		json.put("msg", "success");
@@ -225,6 +230,36 @@ public class AuthServiceImpl implements AuthService {
 		JSONObject json = new JSONObject();
 		json.put("code", 1000);
 		json.put("msg", "success");
+		return json.toString();
+	}
+
+	@Override
+	public String queryOnePermission(Map<String, Object> reqMap) throws Exception {
+		Integer pid = Integer.valueOf(reqMap.get("p_id").toString());
+		PermisionVO permisionVO = permisionMapper.selectByPrimaryKey(pid);
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
+		json.put("res_data", permisionVO.toString());
+		return json.toString();
+	}
+
+	/**
+	 * 已有权限
+	 */
+	@Override
+	public String queryRoleHasPermission(Map<String, Object> reqMap) throws Exception {
+		MiscUtil.convertMap(reqMap);
+		JSONObject json = new JSONObject();
+		Integer pageNum  = Integer.valueOf(reqMap.get("page_num").toString());
+		Integer pageSize  = Integer.valueOf(reqMap.get("page_size").toString());
+		reqMap.put("page_num", (pageNum.intValue() - 1) * pageSize.intValue());
+		Integer total = rolePermisionMapper.countHasPermisons(reqMap);
+		List<Map<String, Object>> permisions = rolePermisionMapper.queryHasPermison(reqMap);
+		json.put("code", 1000);
+		json.put("msg", "success");
+		json.put("count", total);
+		json.put("res_data", permisions);
 		return json.toString();
 	}
 

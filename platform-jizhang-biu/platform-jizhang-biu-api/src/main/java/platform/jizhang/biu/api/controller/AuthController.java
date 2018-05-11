@@ -254,4 +254,56 @@ public class AuthController {
 		}
 	}
 	
+	/**
+	 * 查询权限 
+	 * @return
+	 */
+	@RequestMapping(value = "/permision_query")
+	@ResponseBody
+	public String queryOnePermission(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("p_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[p_id]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.queryOnePermission(reqMap);
+		} catch (Exception e) {
+			logger.error("-->permision_query_one 异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "permision_query_one 异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	/**
+	 * 角色已有权限
+	 * @return
+	 */
+	@RequestMapping(value = "/role_has_permisions")
+	@ResponseBody
+	public String queryRoleHasPermisions(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {});
+			if(MiscUtil.isEmpty(reqMap.get("r_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "[r_id]必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return authService.queryRoleHasPermission(reqMap);
+		} catch (Exception e) {
+			logger.error("-->角色已有权限 异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "角色已有权限 异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
 }
