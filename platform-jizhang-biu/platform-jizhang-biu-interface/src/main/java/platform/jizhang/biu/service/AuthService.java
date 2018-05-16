@@ -27,5 +27,7 @@ public interface AuthService {
 	String queryOnePermission(Map<String, Object> reqMap) throws Exception;
 
 	String queryRoleHasPermission(Map<String, Object> reqMap) throws Exception;
+
+	String roleRelPermissions(Map<String, Object> reqMap) throws Exception;
 	
 }

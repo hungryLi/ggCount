@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="platform.jizhang.biu.service.persistence.mybatis.ConsumeJoinVOMapper" >
+  <resultMap id="BaseResultMap" type="platform.jizhang.biu.service.model.ConsumeJoinVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="pay_user_id" property="payUserId" jdbcType="INTEGER" />
+    <result column="cost_mount" property="costMount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, record_id, pay_user_id, cost_mount, status
+  </sql>
+  
+  <insert id="insertConsumeRecord" parameterType="java.util.List">
+  	 insert into jz_consume_join (record_id, pay_user_id, cost_mount, status) values 
+	 <foreach collection="list" item="record" separator=",">
+  		(#{record.record_id},#{record.pay_user_id},#{record.cost_mount},#{record.status})
+  	 </foreach>  	 
+  </insert>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jz_consume_join
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jz_consume_join
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="platform.jizhang.biu.service.model.ConsumeJoinVO" >
+    insert into jz_consume_join (id, record_id, pay_user_id, 
+      cost_mount, status)
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{payUserId,jdbcType=INTEGER}, 
+      #{costMount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.ConsumeJoinVO" >
+    insert into jz_consume_join
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="payUserId != null" >
+        pay_user_id,
+      </if>
+      <if test="costMount != null" >
+        cost_mount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="payUserId != null" >
+        #{payUserId,jdbcType=INTEGER},
+      </if>
+      <if test="costMount != null" >
+        #{costMount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="platform.jizhang.biu.service.model.ConsumeJoinVO" >
+    update jz_consume_join
+    <set >
+      <if test="recordId != null" >
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="payUserId != null" >
+        pay_user_id = #{payUserId,jdbcType=INTEGER},
+      </if>
+      <if test="costMount != null" >
+        cost_mount = #{costMount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="platform.jizhang.biu.service.model.ConsumeJoinVO" >
+    update jz_consume_join
+    set record_id = #{recordId,jdbcType=INTEGER},
+      pay_user_id = #{payUserId,jdbcType=INTEGER},
+      cost_mount = #{costMount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

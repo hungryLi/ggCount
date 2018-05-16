@@ -23,4 +23,12 @@ public interface RolePermisionVOMapper {
 	Integer countHasPermisons(Map<String, Object> reqMap);
 
 	List<Map<String, Object>> queryHasPermison(Map<String, Object> reqMap);
+
+	List<Map<String, Object>> queryNotHasPermison(Map<String, Object> reqMap);
+
+	Integer countNotHasPermisons(Map<String, Object> reqMap);
+
+	Integer relePermisions(Map<String, Object> reqMap);
+
+	Integer delePermions(Map<String, Object> reqMap);
 }

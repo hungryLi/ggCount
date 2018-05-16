@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.jizhang.biu.service.persistence.mybatis.AccountGroupVOMapper">
+  <resultMap id="BaseResultMap" type="platform.jizhang.biu.service.model.AccountGroupVO">
+    <id column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="group_sign" jdbcType="VARCHAR" property="groupSign" />
+    <result column="group_icon" jdbcType="VARCHAR" property="groupIcon" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    group_id, group_name, group_sign, group_icon, create_user_id, status, create_time
+  </sql>
+  
+  <select id="selectGroups" parameterType="java.util.Map" resultType="java.util.Map">
+  	select
+		gm.group_id,
+		ag.group_name
+	from
+		jz_group_member gm
+	left join jz_account_group ag on gm.group_id = ag.group_id
+	where
+		gm.user_id = #{0}
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jz_account_group
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jz_account_group
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="platform.jizhang.biu.service.model.AccountGroupVO">
+    insert into jz_account_group (group_id, group_name, group_sign, 
+      group_icon, create_user_id, status, 
+      create_time)
+    values (#{groupId,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{groupSign,jdbcType=VARCHAR}, 
+      #{groupIcon,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.AccountGroupVO">
+    insert into jz_account_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="groupSign != null">
+        group_sign,
+      </if>
+      <if test="groupIcon != null">
+        group_icon,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupSign != null">
+        #{groupSign,jdbcType=VARCHAR},
+      </if>
+      <if test="groupIcon != null">
+        #{groupIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="platform.jizhang.biu.service.model.AccountGroupVO">
+    update jz_account_group
+    <set>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupSign != null">
+        group_sign = #{groupSign,jdbcType=VARCHAR},
+      </if>
+      <if test="groupIcon != null">
+        group_icon = #{groupIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="platform.jizhang.biu.service.model.AccountGroupVO">
+    update jz_account_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      group_sign = #{groupSign,jdbcType=VARCHAR},
+      group_icon = #{groupIcon,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </update>
+</mapper>

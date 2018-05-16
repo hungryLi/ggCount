@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import net.sf.json.JSONObject;
 import platform.common.utils.MiscUtil;
@@ -250,16 +252,43 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public String queryRoleHasPermission(Map<String, Object> reqMap) throws Exception {
 		MiscUtil.convertMap(reqMap);
+		Integer rType = Integer.valueOf(reqMap.get("r_type").toString());
 		JSONObject json = new JSONObject();
 		Integer pageNum  = Integer.valueOf(reqMap.get("page_num").toString());
 		Integer pageSize  = Integer.valueOf(reqMap.get("page_size").toString());
 		reqMap.put("page_num", (pageNum.intValue() - 1) * pageSize.intValue());
-		Integer total = rolePermisionMapper.countHasPermisons(reqMap);
-		List<Map<String, Object>> permisions = rolePermisionMapper.queryHasPermison(reqMap);
+		Integer total = 0;
+		List<Map<String, Object>> permisions = null;
+		if(rType.intValue() == 1) {
+			// 已关联
+			total = rolePermisionMapper.countHasPermisons(reqMap);
+			permisions = rolePermisionMapper.queryHasPermison(reqMap);
+		}else if(rType.intValue() == 2) {
+			// 可关联
+			permisions = rolePermisionMapper.queryNotHasPermison(reqMap);
+			total = rolePermisionMapper.countNotHasPermisons(reqMap);
+		}
 		json.put("code", 1000);
 		json.put("msg", "success");
 		json.put("count", total);
 		json.put("res_data", permisions);
+		return json.toString();
+	}
+
+	@Override
+	public String roleRelPermissions(Map<String, Object> reqMap) throws Exception {
+		List<Integer> pIds = JSON.parseObject(reqMap.get("p_ids").toString(), new TypeReference<List<Integer>>() {});
+		reqMap.put("p_ids", pIds);
+		Integer type = Integer.valueOf(reqMap.get("type").toString());
+		if(type.intValue() == 1) {
+			rolePermisionMapper.relePermisions(reqMap);
+		}
+		if(type.intValue() == 2) {
+			rolePermisionMapper.delePermions(reqMap);
+		}
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
 		return json.toString();
 	}
 
