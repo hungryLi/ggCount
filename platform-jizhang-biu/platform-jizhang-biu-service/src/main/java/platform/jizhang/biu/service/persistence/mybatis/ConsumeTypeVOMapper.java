@@ -1,5 +1,8 @@
 package platform.jizhang.biu.service.persistence.mybatis;
 
+import java.util.List;
+import java.util.Map;
+
 import platform.jizhang.biu.service.model.ConsumeTypeVO;
 
 public interface ConsumeTypeVOMapper {
@@ -14,4 +17,6 @@ public interface ConsumeTypeVOMapper {
     int updateByPrimaryKeySelective(ConsumeTypeVO record);
 
     int updateByPrimaryKey(ConsumeTypeVO record);
+
+	List<Map<String, Object>> queryTypes(Map<String, Object> reqMap);
 }

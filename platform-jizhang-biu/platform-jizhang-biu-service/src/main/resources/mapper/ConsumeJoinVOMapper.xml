@@ -15,7 +15,7 @@
   <insert id="insertConsumeRecord" parameterType="java.util.List">
   	 insert into jz_consume_join (record_id, pay_user_id, cost_mount, status) values 
 	 <foreach collection="list" item="record" separator=",">
-  		(#{record.record_id},#{record.pay_user_id},#{record.cost_mount},#{record.status})
+  		(#{record.recordId},#{record.payUserId},#{record.costMount},#{record.status})
   	 </foreach>  	 
   </insert>
   

@@ -10,6 +10,18 @@
   <sql id="Base_Column_List" >
     id, name, number, type_desc
   </sql>
+  
+  <select id="queryTypes" parameterType="java.util.Map" resultType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from jz_consume_type
+    <where>
+    	<if test="consume_id != null">
+    		and id = #{consume_id,jdbcType=INTEGER}
+    	</if>
+    </where> 
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

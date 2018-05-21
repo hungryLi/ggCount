@@ -32,6 +32,32 @@ public class ConsumeController {
 
 	
 	/**
+	 * 首页动态信息初始化
+	 */
+	@RequestMapping(value = "/list_index_activities")
+	@ResponseBody
+	public String listIndexActivities(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, String> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, String>>() {
+			});
+			if (StringUtils.isBlank(reqMap.get("user_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return consumeService.queryIndexActiviy(reqMap);
+		} catch (Exception e) {
+			logger.error("--> list_index_activities 首页喜欢活动信息列表异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "异常");
+			return jsonObject.toJSONString();
+		}
+	}
+	
+	/**
 	 * 添加消费记录
 	 */
 	@RequestMapping(value = "/add_consume")
@@ -60,6 +86,7 @@ public class ConsumeController {
 	
 	/**
 	 * 消费类型
+	 * consume_id:有id根据id查询，无id查询所有类型
 	 */
 	@RequestMapping(value = "/select_consume_type")
 	@ResponseBody
@@ -68,7 +95,7 @@ public class ConsumeController {
 		try {
 			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
 			String paraData = reqJson.getString("para_data");
-			Map<String, String> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, String>>() {
+			Map<String, Object> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, Object>>() {
 			});
 			return consumeService.queryConsumeType(reqMap);
 		} catch (Exception e) {
@@ -129,5 +156,5 @@ public class ConsumeController {
 			return jsonObject.toJSONString();
 		}
 	}
-
+	
 }

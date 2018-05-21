@@ -6,7 +6,9 @@ import java.util.Date;
 public class ConsumeRecordVO {
     private Integer id;
 
-    private String consumeTitle;
+    private Integer recordType;
+    
+	private String consumeTitle;
 
     private String consumeAddress;
 
@@ -23,8 +25,10 @@ public class ConsumeRecordVO {
     private Date consmueTime;
 
     private Integer status;
+    
+    private Integer like;
 
-    private Date handlerTime;
+	private Date handlerTime;
 
     private String picAddress1;
 
@@ -40,6 +44,14 @@ public class ConsumeRecordVO {
         this.id = id;
     }
 
+    public Integer getRecordType() {
+ 		return recordType;
+ 	}
+
+ 	public void setRecordType(Integer recordType) {
+ 		this.recordType = recordType;
+ 	}
+ 	
     public String getConsumeTitle() {
         return consumeTitle;
     }
@@ -68,6 +80,13 @@ public class ConsumeRecordVO {
         return handlerType;
     }
 
+    public Integer getLike() {
+		return like;
+	}
+
+	public void setLike(Integer like) {
+		this.like = like;
+	}
     public void setHandlerType(Integer handlerType) {
         this.handlerType = handlerType;
     }

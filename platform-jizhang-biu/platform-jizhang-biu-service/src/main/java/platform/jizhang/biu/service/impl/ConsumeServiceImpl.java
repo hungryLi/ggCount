@@ -28,6 +28,7 @@ import platform.jizhang.biu.service.persistence.mybatis.ConsumeJoinVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.ConsumeRecordVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.ConsumeTypeVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.GroupMemberVOMapper;
+import platform.jizhang.biu.service.persistence.mybatis.LikeVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.RoleVOMapper;
 
 @Component
@@ -46,6 +47,20 @@ public class ConsumeServiceImpl implements ConsumeService {
 	private ConsumeTypeVOMapper consumeTypeMapper;
 	@Autowired(required = true)
 	private ConsumeRecordVOMapper consumeRecordMapper;
+	@Autowired(required = true)
+	private LikeVOMapper likeMapper;
+
+	@Override
+	public String queryIndexActiviy(Map<String, String> reqMap) throws Exception {
+		Integer userId = Integer.valueOf(reqMap.get("user_id").toString());
+		List<Map<String, Object>> lists = likeMapper.listLikes(userId);
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
+		json.put("count", lists == null ? 0 :lists.size());
+		json.put("res_data", lists);
+		return json.toString();
+	}
 	
 	@Override
 	public String queryGroups(Map<String, String> reqMap) throws Exception {
@@ -94,7 +109,9 @@ public class ConsumeServiceImpl implements ConsumeService {
 		}
 		consumeRecordMapper.insertSelective(recode);
 		Integer consumeRecordId = recode.getId(); //消费记录主键id
-		
+		if(consumeRecordId == null) {
+			throw new RuntimeException("插入消费记录失败，主键获取失败");
+		}
 		List<Integer> needPayIds = JSON.parseObject(reqMap.get("user_ids"), new TypeReference<List<Integer>>() {});
 		needPayIds.add(payUserId);
 		BigDecimal costMount = totlePrice.divide(new BigDecimal(needPayIds.size()), BigDecimal.ROUND_HALF_UP).setScale(1);
@@ -105,6 +122,9 @@ public class ConsumeServiceImpl implements ConsumeService {
 			joinVo.setPayUserId(userId);
 			joinVo.setCostMount(costMount);
 			joinVo.setStatus(0);
+			if(userId == payUserId) {
+				joinVo.setStatus(1);
+			}
 			joinList.add(joinVo);
 		}
 		consumeJoinMapper.insertConsumeRecord(joinList);
@@ -114,10 +134,15 @@ public class ConsumeServiceImpl implements ConsumeService {
 	}
 
 	@Override
-	public String queryConsumeType(Map<String, String> reqMap) throws Exception {
-		
-		return null;
+	public String queryConsumeType(Map<String, Object> reqMap) throws Exception {
+		List<Map<String, Object>> types = consumeTypeMapper.queryTypes(reqMap);
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
+		json.put("res_data", types);
+		return json.toString();
 	}
+
 
 
 	

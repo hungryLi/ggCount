@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="platform.jizhang.biu.service.persistence.mybatis.LikeVOMapper" >
+  <resultMap id="BaseResultMap" type="platform.jizhang.biu.service.model.LikeVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="like_time" property="likeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, record_id, like_time
+  </sql>
+  
+  <select id="listLikes" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	select
+		l.id as like_id,cr.*,ct.name 
+	from
+		jz_like l
+	left join jz_consume_record cr on cr.id = l.record_id left join jz_consume_type ct on cr.consume_type = ct.id
+		where
+		cr.pay_user_id = #{0} limit 6
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jz_like
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jz_like
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="platform.jizhang.biu.service.model.LikeVO" >
+    insert into jz_like (id, record_id, like_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{likeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.LikeVO" >
+    insert into jz_like
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="likeTime != null" >
+        like_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="likeTime != null" >
+        #{likeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="platform.jizhang.biu.service.model.LikeVO" >
+    update jz_like
+    <set >
+      <if test="recordId != null" >
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="likeTime != null" >
+        like_time = #{likeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="platform.jizhang.biu.service.model.LikeVO" >
+    update jz_like
+    set record_id = #{recordId,jdbcType=INTEGER},
+      like_time = #{likeTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

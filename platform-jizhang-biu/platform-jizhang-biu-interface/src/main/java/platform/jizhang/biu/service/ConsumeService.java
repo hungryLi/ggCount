@@ -10,6 +10,8 @@ public interface ConsumeService {
 
 	String addOneConsume(Map<String, String> reqMap) throws Exception;
 
-	String queryConsumeType(Map<String, String> reqMap) throws Exception;
+	String queryConsumeType(Map<String, Object> reqMap) throws Exception;
+
+	String queryIndexActiviy(Map<String, String> reqMap) throws Exception;
 	
 }
