@@ -23,6 +23,13 @@
     id,record_type, consume_title, consume_address, consume_type, handler_type, pay_user_id, group_id, 
     price, consmue_time, status, like,handler_time, pic_address1, pic_address2, consume_desc
   </sql>
+  
+  <update id="updateRecordLike" parameterType="platform.jizhang.biu.service.model.ConsumeRecordVO">
+  	update jz_consume_record
+    set jz_consume_record.`like` = #{like,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

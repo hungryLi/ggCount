@@ -143,6 +143,22 @@ public class ConsumeServiceImpl implements ConsumeService {
 		return json.toString();
 	}
 
+	@Override
+	@Transactional( propagation = Propagation.REQUIRED)
+	public String cancelLike(Map<String, String> reqMap) throws Exception {
+		Integer likeId = Integer.valueOf(reqMap.get("like_id"));
+		Integer rid = Integer.valueOf(reqMap.get("r_id"));
+		ConsumeRecordVO record = new ConsumeRecordVO();
+		record.setId(rid);
+		record.setLike(0);
+		consumeRecordMapper.updateRecordLike(record);
+		likeMapper.deleteByPrimaryKey(likeId);
+		JSONObject json = new JSONObject();
+		json.put("code", 1000);
+		json.put("msg", "success");
+		return json.toString();
+	}
+
 
 
 	

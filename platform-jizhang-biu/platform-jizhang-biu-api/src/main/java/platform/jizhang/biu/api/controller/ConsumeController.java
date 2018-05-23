@@ -156,5 +156,30 @@ public class ConsumeController {
 			return jsonObject.toJSONString();
 		}
 	}
+	/**
+	 * 首页取消喜欢
+	 */
+	@RequestMapping(value = "/cancel_like")
+	@ResponseBody
+	public String cancelLike(HttpServletResponse resp, HttpServletRequest req) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			JSONObject reqJson = MiscUtil.getRequestBody(req.getInputStream());
+			String paraData = reqJson.getString("para_data");
+			Map<String, String> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, String>>() {
+			});
+			if (StringUtils.isBlank(reqMap.get("like_id")) || StringUtils.isBlank(reqMap.get("r_id"))) {
+				jsonObject.put("code", 10001);
+				jsonObject.put("msg", "必填参数为空");
+				return jsonObject.toJSONString();
+			}
+			return consumeService.cancelLike(reqMap);
+		} catch (Exception e) {
+			logger.error("-->cancel_like 首页取消喜欢异常");
+			jsonObject.put("code", 2);
+			jsonObject.put("msg", "异常");
+			return jsonObject.toJSONString();
+		}
+	}
 	
 }

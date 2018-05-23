@@ -14,4 +14,6 @@ public interface ConsumeRecordVOMapper {
     int updateByPrimaryKeySelective(ConsumeRecordVO record);
 
     int updateByPrimaryKey(ConsumeRecordVO record);
+
+	int updateRecordLike(ConsumeRecordVO record);
 }
