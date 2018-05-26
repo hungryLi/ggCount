@@ -168,7 +168,7 @@ public class ConsumeController {
 			String paraData = reqJson.getString("para_data");
 			Map<String, String> reqMap = JSON.parseObject(paraData, new TypeReference<Map<String, String>>() {
 			});
-			if (StringUtils.isBlank(reqMap.get("like_id")) || StringUtils.isBlank(reqMap.get("r_id"))) {
+			if (StringUtils.isBlank(reqMap.get("r_id")) || StringUtils.isBlank(reqMap.get("like_status"))) {
 				jsonObject.put("code", 10001);
 				jsonObject.put("msg", "必填参数为空");
 				return jsonObject.toJSONString();

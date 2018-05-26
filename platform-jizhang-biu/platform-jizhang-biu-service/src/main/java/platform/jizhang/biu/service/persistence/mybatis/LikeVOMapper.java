@@ -19,4 +19,6 @@ public interface LikeVOMapper {
     int updateByPrimaryKey(LikeVO record);
 
 	List<Map<String, Object>> listLikes(Integer userId);
+
+	int deleteByRecordId(Integer rid);
 }

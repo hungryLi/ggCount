@@ -13,7 +13,7 @@
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="consmue_time" property="consmueTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="like" property="like" jdbcType="INTEGER" />
+    <result column="like_status" property="likeStatus" jdbcType="INTEGER" />
     <result column="handler_time" property="handlerTime" jdbcType="TIMESTAMP" />
     <result column="pic_address1" property="picAddress1" jdbcType="VARCHAR" />
     <result column="pic_address2" property="picAddress2" jdbcType="VARCHAR" />
@@ -21,12 +21,21 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id,record_type, consume_title, consume_address, consume_type, handler_type, pay_user_id, group_id, 
-    price, consmue_time, status, like,handler_time, pic_address1, pic_address2, consume_desc
+    price, consmue_time, status, like_status,handler_time, pic_address1, pic_address2, consume_desc
   </sql>
+  
+  <select id="listTimes" parameterType="java.util.Map" resultType="java.util.Map">
+    select 
+    	<include refid="Base_Column_List" />
+    from jz_consume_record
+    where pay_user_id = #{user_id,jdbcType=INTEGER}
+    order by consmue_time desc
+    limit #{page_num,jdbcType=INTEGER},#{page_size,jdbcType=INTEGER}
+  </select>
   
   <update id="updateRecordLike" parameterType="platform.jizhang.biu.service.model.ConsumeRecordVO">
   	update jz_consume_record
-    set jz_consume_record.`like` = #{like,jdbcType=INTEGER}
+    set like_status = #{likeStatus,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -44,12 +53,12 @@
     insert into jz_consume_record (id, record_type,consume_title, consume_address, 
       consume_type, handler_type, pay_user_id, 
       group_id, price, consmue_time, 
-      status,like, handler_time, pic_address1, 
+      status,like_status, handler_time, pic_address1, 
       pic_address2, consume_desc)
     values (#{id,jdbcType=INTEGER},#{recordType,jdbcType=INTEGER}, #{consumeTitle,jdbcType=VARCHAR}, #{consumeAddress,jdbcType=VARCHAR}, 
       #{consumeType,jdbcType=INTEGER}, #{handlerType,jdbcType=INTEGER}, #{payUserId,jdbcType=INTEGER}, 
       #{groupId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{consmueTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER},  #{like,jdbcType=INTEGER},#{handlerTime,jdbcType=TIMESTAMP}, #{picAddress1,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER},  #{likeStatus,jdbcType=INTEGER},#{handlerTime,jdbcType=TIMESTAMP}, #{picAddress1,jdbcType=VARCHAR}, 
       #{picAddress2,jdbcType=VARCHAR}, #{consumeDesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="platform.jizhang.biu.service.model.ConsumeRecordVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -88,8 +97,8 @@
       <if test="status != null" >
         status,
       </if>
-      <if test="like != null" >
-        like,
+      <if test="likeStatus != null" >
+        like_status,
       </if>
       <if test="handlerTime != null" >
         handler_time,
@@ -138,8 +147,8 @@
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="like != null" >
-        #{like,jdbcType=INTEGER},
+      <if test="likeStatus != null" >
+        #{likeStatus,jdbcType=INTEGER},
       </if>
       <if test="handlerTime != null" >
         #{handlerTime,jdbcType=TIMESTAMP},
@@ -188,8 +197,8 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="like != null" >
-        like = #{like,jdbcType=INTEGER},
+      <if test="likeStatus != null" >
+        like_status = #{likeStatus,jdbcType=INTEGER},
       </if>
       <if test="handlerTime != null" >
         handler_time = #{handlerTime,jdbcType=TIMESTAMP},
@@ -218,7 +227,7 @@
       price = #{price,jdbcType=DECIMAL},
       consmue_time = #{consmueTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
-      like = #{like,jdbcType=INTEGER},
+      like_status = #{likeStatus,jdbcType=INTEGER},
       handler_time = #{handlerTime,jdbcType=TIMESTAMP},
       pic_address1 = #{picAddress1,jdbcType=VARCHAR},
       pic_address2 = #{picAddress2,jdbcType=VARCHAR},

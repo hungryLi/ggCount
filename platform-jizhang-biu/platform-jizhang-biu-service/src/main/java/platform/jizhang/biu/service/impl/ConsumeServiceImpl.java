@@ -18,11 +18,13 @@ import com.alibaba.fastjson.TypeReference;
 import com.mchange.v2.c3p0.impl.NewProxyDatabaseMetaData;
 
 import net.sf.json.JSONObject;
+import platform.common.utils.DateTimeUtil;
 import platform.common.utils.MiscUtil;
 import platform.common.utils.StringUtil;
 import platform.jizhang.biu.service.ConsumeService;
 import platform.jizhang.biu.service.model.ConsumeJoinVO;
 import platform.jizhang.biu.service.model.ConsumeRecordVO;
+import platform.jizhang.biu.service.model.LikeVO;
 import platform.jizhang.biu.service.persistence.mybatis.AccountGroupVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.ConsumeJoinVOMapper;
 import platform.jizhang.biu.service.persistence.mybatis.ConsumeRecordVOMapper;
@@ -146,13 +148,23 @@ public class ConsumeServiceImpl implements ConsumeService {
 	@Override
 	@Transactional( propagation = Propagation.REQUIRED)
 	public String cancelLike(Map<String, String> reqMap) throws Exception {
-		Integer likeId = Integer.valueOf(reqMap.get("like_id"));
-		Integer rid = Integer.valueOf(reqMap.get("r_id"));
+		//Integer likeId = Integer.valueOf(reqMap.get("like_id"));
+		Integer recordId = Integer.valueOf(reqMap.get("r_id"));
+		Integer likeStatus = Integer.valueOf(reqMap.get("like_status"));
 		ConsumeRecordVO record = new ConsumeRecordVO();
-		record.setId(rid);
-		record.setLike(0);
+		record.setId(recordId);
+		record.setLikeStatus(likeStatus);
 		consumeRecordMapper.updateRecordLike(record);
-		likeMapper.deleteByPrimaryKey(likeId);
+		if(likeStatus == 0) {
+//			likeMapper.deleteByPrimaryKey(likeId);
+			likeMapper.deleteByRecordId(recordId);
+		}
+		if(likeStatus == 1) {
+			LikeVO likeVO = new LikeVO();
+			likeVO.setRecordId(recordId);
+			likeVO.setLikeTime(DateTimeUtil.getCurrDate());
+			likeMapper.insertSelective(likeVO);
+		}
 		JSONObject json = new JSONObject();
 		json.put("code", 1000);
 		json.put("msg", "success");

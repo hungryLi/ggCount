@@ -26,7 +26,7 @@ public class ConsumeRecordVO {
 
     private Integer status;
     
-    private Integer like;
+    private Integer likeStatus;
 
 	private Date handlerTime;
 
@@ -80,14 +80,16 @@ public class ConsumeRecordVO {
         return handlerType;
     }
 
-    public Integer getLike() {
-		return like;
+    
+    public Integer getLikeStatus() {
+		return likeStatus;
 	}
 
-	public void setLike(Integer like) {
-		this.like = like;
+	public void setLikeStatus(Integer likeStatus) {
+		this.likeStatus = likeStatus;
 	}
-    public void setHandlerType(Integer handlerType) {
+
+	public void setHandlerType(Integer handlerType) {
         this.handlerType = handlerType;
     }
 

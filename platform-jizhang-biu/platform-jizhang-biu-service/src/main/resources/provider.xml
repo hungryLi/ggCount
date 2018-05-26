@@ -42,6 +42,9 @@
      
     <dubbo:service interface="platform.jizhang.biu.service.ConsumeService" ref="consumeService" timeout="2000"  retries="0" version="1.0.0"/>
 	<bean id="consumeService"  class="platform.jizhang.biu.service.impl.ConsumeServiceImpl" />
+     
+    <dubbo:service interface="platform.jizhang.biu.service.TimeService" ref="timeService" timeout="2000"  retries="0" version="1.0.0"/>
+	<bean id="timeService"  class="platform.jizhang.biu.service.impl.TimeServiceImpl" />
     
 
     

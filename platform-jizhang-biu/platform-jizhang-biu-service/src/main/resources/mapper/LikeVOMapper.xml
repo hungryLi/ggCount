@@ -20,6 +20,10 @@
 		cr.pay_user_id = #{0} limit 6
   </select>
   
+  <delete id="deleteByRecordId" parameterType="java.lang.Integer">
+  	delete from jz_like where record_id = #{0}
+  </delete>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
